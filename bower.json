@@ -1,0 +1,10 @@
+{
+  "name": "gyper-app",
+  "description": "gyper app",
+  "main": [
+    "js/motion.js"
+  ],
+  "dependencies": {
+    "autobahn": "*"
+  }
+}
