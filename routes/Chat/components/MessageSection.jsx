@@ -2,6 +2,14 @@ import React from 'react';
 import MessageComposer from './MessageComposer.jsx';
 import MessageListItem from './MessageListItem.jsx';
 import CurrentMessageStore from '../stores/CurrentMessageStore';
+import * as Actions from '../actions';
+
+var autobahn = require('autobahn');
+
+var connection = new autobahn.Connection({
+   url: 'ws:'+window.location.host+'/wss',
+   realm: 'realm1'}
+);
 
 function getMessageListItem(message) {
   return (
@@ -20,11 +28,40 @@ class MessageSection extends React.Component {
   }
 
   componentDidMount() {
+    connection.onopen = function (session)
+    {
+      console.log('autobahn open');
+
+      function onEvent(publishArgs, kwargs) {
+        console.log('Event received args', publishArgs, 'kwargs ',kwargs);
+
+        Actions.createMessage('EVENT!', 't_2');
+      }
+
+      // Subscribe to a topic
+      session.subscribe('com.myapp.topic1', onEvent).then(
+        function(subscription) {
+           console.log("subscription successfull", subscription);
+        },
+        function(error) {
+           console.log("subscription failed", error);
+        }
+      );
+    }
+    connection.open();
+
     this.unsubscribe = CurrentMessageStore.listen(this._onChange.bind(this));
     this._scrollToBottom();
   }
 
   componentWillUnmount() {
+    connection.onclose = function (session)
+    {
+      console.log('autobahn close');
+    }
+
+    connection.close();
+
     this.unsubscribe();
   }
 

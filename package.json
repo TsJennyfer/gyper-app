@@ -4,14 +4,19 @@
   "description": "gyper app",
   "main": "lib/index",
   "dependencies": {
+    "autobahn": "^0.9.9",
     "classnames": "^2.2.3",
     "es6-promise": "^3.0.2",
+    "express": "^4.13.4",
+    "express-urlrewrite": "^1.2.0",
     "immutable": "*",
     "lodash": "^3.10.1",
     "object-assign": "*",
     "react": "*",
     "react-router": "*",
-    "reflux": "*"
+    "reflux": "*",
+    "wamp.rt": "git://github.com/kalmyk/wamp.rt.git",
+    "webpack-dev-middleware": "^1.5.1"
   },
   "devDependencies": {
     "webpack": "^1.12.2",

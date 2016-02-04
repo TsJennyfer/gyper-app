@@ -61,7 +61,7 @@ module.exports = {
   output: {
     path: 'www/app',
     filename: '[name].js',
-    publicPath: 'app/'
+    publicPath: '/app/'
   },
   module: {
     loaders: [
@@ -78,9 +78,9 @@ module.exports = {
       { test: /\.png$/, loader: "url-loader?mimetype=image/png" }
     ]
   },
-  devtool: 'source-map',
-//  devtool: 'inline-source-map',
-  scripts: {
-    watch: "webpack --watch -d --display-error-details"
-  }
+//  devtool: 'source-map',
+  devtool: 'inline-source-map',
+//  scripts: {
+//    watch: "webpack --watch -d --display-error-details"
+//  }
 };
