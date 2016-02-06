@@ -38,15 +38,12 @@ module.exports = {
     }
   },
   entry: {
-    demoshop: [
-      './demoshop/app.js'
-    ],
+//    demoshop: [
+//      './demoshop/app.js'
+//    ],
 //    employee: [
 //      'employee/views/contact.js'
 //    ],
-//    loader: [
-//      'core/app.js'
-//    ]
     navbar: [
       './navbar/app.js'
     ],

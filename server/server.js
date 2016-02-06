@@ -6,6 +6,7 @@ var webpackDevMiddleware = require('webpack-dev-middleware')
 var WebpackConfig = require('../webpack.config')
 var http = require("http");
 
+WAMPRT_TRACE = true;
 var Router = require("wamp.rt");
 
 var app = express()
@@ -29,7 +30,10 @@ var path = require('path')
 app.use(express.static(__dirname+'/../www'))
 
 var server = http.createServer(app);
+
 var wamp = new Router({server: server, path: "/wss"});
+
+require('./demo/ChatExampleDataServer')(wamp);
 
 server.listen(8080, function () {
   console.log('Server listening on http://localhost:8080, Ctrl+C to stop')
