@@ -6,10 +6,11 @@ import '../css/chatapp.css';
 
 class ChatApp extends React.Component {
 
-  render() {
-
+  componentDidMount() {
     Actions.loadRawMessages();
+  }
 
+  render() {
     return (
       <div className="chatapp">
         <ThreadSection />
