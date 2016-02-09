@@ -2,33 +2,6 @@
 
 var shop = require('../common/api/shop');
 var ActionCreators = require('../actions/ActionCreators');
-var autobahn = require('autobahn');
-
-
-var connection = new autobahn.Connection({
-   url: 'ws://localhost:9000',
-   realm: 'realm1'}
-);
-
-connection.onopen = function (session) {
-      console.log('autobahn open');
-
-   function onEvent(publishArgs, kwargs) {
-      console.log('Event received args', publishArgs, 'kwargs ',kwargs);
-   }
-
-   // Subscribe to a topic
-   session.subscribe('com.myapp.topic1', onEvent).then(
-      function(subscription) {
-         console.log("subscription successfull", subscription);
-      },
-      function(error) {
-         console.log("subscription failed", error);
-      }
-   );
-}
-
-connection.open();
 
 var WebAPIUtils = {
     getAllProducts: function () {

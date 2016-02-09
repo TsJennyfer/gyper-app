@@ -33,7 +33,8 @@ var server = http.createServer(app);
 
 var wamp = new Router({server: server, path: "/wss"});
 
-require('./demo/ChatExampleDataServer')(wamp);
+require('./demo/chatServer')(wamp);
+require('./demo/usersServer')(wamp);
 
 server.listen(8080, function () {
   console.log('Server listening on http://localhost:8080, Ctrl+C to stop')
