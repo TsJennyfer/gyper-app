@@ -7,7 +7,7 @@ import '../css/chatapp.css';
 class ChatApp extends React.Component {
 
   componentDidMount() {
-    Actions.loadRawMessages();
+//    Actions.loadRawMessages();
   }
 
   render() {

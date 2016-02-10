@@ -1,37 +1,40 @@
 'use strict';
 
 var Reflux = require('reflux');
-var UserActions = require('./userActions');
+var userActions = require('./userActions');
 var gyper = require('../../connection/dataStore');
 
 var UserStore = Reflux.createStore({
-  listenables: UserActions,
+  listenables: userActions,
 
   init: function () {
-    this.session = null;
+    this.session = gyper.session;
+    this.users = [];
     this.listenTo(gyper, this.connectionChanged);
+    this.listenTo(userActions.unloadList, this.onUnloadUserList);
+    this.listenTo(userActions.fetchList, this.onFetchUserList);
   },
 
   getInitialState: function () {
-    console.log('initial state');
-    return {
-      users: []
-    };
+    return {users:this.users};
   },
 
-  connectionChanged: function (state) {
+  connectionChanged: function (session) {
     console.log('connection changed');
-    this.session = state.session;
-    if (state.session)
-      this.fetchUserList();
+    this.session = session;
   },
 
-  fetchUserList: function () {
+  onFetchUserList: function () {
     var self = this;
     this.session.call('user.getUsers').then(function (data) {
-      console.log('users loaded', data.args);
-      self.setState({users:data.args});
+      self.users = data.args;
+      self.trigger(self.users);
     });
+  },
+
+  onUnloadUserList: function () {
+    this.users = [];
+    console.log('onUnloadList');
   }
 
 });

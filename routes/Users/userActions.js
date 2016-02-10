@@ -3,7 +3,8 @@
 var Reflux = require('reflux');
 
 var userActions = Reflux.createActions([
-  'fetchList'
+  'fetchList',
+  'unloadList'
 ]);
 
 module.exports = userActions;

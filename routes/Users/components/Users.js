@@ -1,10 +1,19 @@
 var React = require('react');
 var Reflux = require('reflux');
 var UserStore = require('../userStore');
+var userActions = require('../userActions');
 
 var Users = React.createClass({
 
   mixins: [Reflux.connect(UserStore)],
+
+  componentDidMount: function() {
+    userActions.fetchList();
+  },
+
+  componentWillUnmount: function() {
+    userActions.unloadList();
+  },
 
   render: function () {
     console.log('USER RENDER', this.state);

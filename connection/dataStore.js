@@ -10,20 +10,15 @@ var connection = new autobahn.Connection({
 var dataStore  = Reflux.createStore({
 
   listenables: [actions],
-  state: {
-    session: null
-  },
 
-  getState: function() {
-    return this.state;
+  getInitialState: function () {
+    return {session:this.session};
   },
 
   init: function() {
     var self = this;
     connection.onopen = function (session)
     {
-      self.state.session = session;
-
       function onEvent(publishArgs, kwargs) {
         console.log('Event received args', publishArgs, 'kwargs ',kwargs);
 
@@ -39,13 +34,14 @@ var dataStore  = Reflux.createStore({
            console.log("subscription failed", error);
         }
       );
-      self.trigger(self.state);
+      self.session = session;
+      self.trigger({session:self.session});
     };
 
     connection.onclose = function (session)
     {
-      self.state.session = null;
-      self.trigger(this.state);
+      this.session = null;
+      self.trigger({session:self.session});
     };
 
     connection.open();
