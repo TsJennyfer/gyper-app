@@ -6,8 +6,11 @@ var webpackDevMiddleware = require('webpack-dev-middleware')
 var WebpackConfig = require('../webpack.config')
 var http = require("http");
 
+var chatServer  = require('./demo/chatServer');
+var usersServer = require('./demo/usersServer');
+
 WAMPRT_TRACE = true;
-var Router = require("wamp.rt");
+var WampRouter = require("wamp.rt");
 
 var app = express()
 
@@ -31,10 +34,13 @@ app.use(express.static(__dirname+'/../www'))
 
 var server = http.createServer(app);
 
-var wamp = new Router({server: server, path: "/wss"});
+var wamp = new WampRouter({server: server, path: "/wss"});
 
-require('./demo/chatServer')(wamp);
-require('./demo/usersServer')(wamp);
+wamp.on('RealmCreated', function (realm, realmName) {
+    console.log('realm created', realmName);
+    chatServer(realm.api());
+    usersServer(realm.api());
+});
 
 server.listen(8080, function () {
   console.log('Server listening on http://localhost:8080, Ctrl+C to stop')
